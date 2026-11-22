@@ -1,4 +1,3 @@
-
 # Sprints Multi-Agent AI Career & Assessment Orchestrator
 
 A LangGraph-based multi-agent reference implementation for curriculum Q&A, Python code assessment, learner-profile lookup, and human-in-the-loop placement recommendations.
@@ -19,7 +18,7 @@ The graph uses `MemorySaver` to preserve conversation state using a unique `thre
 | Component | Responsibility |
 |---|---|
 | LangGraph Router | Routes requests to Advisor, Assessor, or Profile |
-| Advisor | Curriculum retrieval, evidence sufficiency check, and one query reformulation retry |
+| Advisor | Curriculum retrieval, evidence sufficiency check, and query reformulation |
 | ChromaDB | Vector storage and semantic curriculum retrieval |
 | Assessor | Python execution and structured assessment |
 | Evaluator-Optimizer | Reviews and refines assessments, up to 3 iterations |
@@ -86,7 +85,13 @@ Do not commit `.env` or expose API keys in the repository.
 
 ### 5.1 Learner Database
 
-The project includes a learner CSV dataset containing 25 records.
+The repository includes a synthetic example dataset:
+
+`data/sprints_learner_db.example.csv`
+
+It contains 3 demo learner records and is intended for testing and demonstration only.
+
+If a private dataset named `data/sprints_learner_db.csv` exists locally, the database builder uses it instead. This private file is excluded from Git.
 
 Initialize the SQLite database:
 
@@ -96,9 +101,7 @@ python -c "from src.tools.db_queries import build_database; print(build_database
 
 The database is created at:
 
-```text
-data/sprints_learners.db
-```
+`data/sprints_learners.db`
 
 The database includes learner information such as:
 
@@ -111,15 +114,13 @@ The database includes learner information such as:
 - Preferred employers
 - Readiness status
 
-The included dataset is sample project data, not a live production learner database.
+The database is generated locally and is not committed to the repository.
 
 ### 5.2 Curriculum Documents
 
 Add curriculum documents in `.txt` or `.md` format under:
 
-```text
-data/curriculum_docs/
-```
+`data/curriculum_docs/`
 
 Index the documents:
 
@@ -143,13 +144,13 @@ Only add real client curriculum documents after verifying their source and conte
 ### Advisor Request
 
 ```powershell
-python -m src.main --student-id SPR-1001 --thread-id demo-session-001 --query "What modules have I completed?"
+python -m src.main --student-id DEMO-001 --thread-id demo-session-001 --query "What modules have I completed?"
 ```
 
 ### Assessor Request
 
 ```powershell
-python -m src.main --student-id SPR-1001 --thread-id demo-session-002 --query "Grade this factorial solution" --code "print(5*4*3*2*1)"
+python -m src.main --student-id DEMO-001 --thread-id demo-session-002 --query "Grade this factorial solution" --code "print(5*4*3*2*1)"
 ```
 
 Use a unique `thread_id` for each independent conversation.
@@ -173,76 +174,10 @@ Run the complete offline test suite:
 python -m pytest -q
 ```
 
-The tests cover:
+The test suite covers:
 
 - Database tools and read-only query behavior
 - Code execution restrictions
 - RAG retrieval
 - Advisor behavior
-- Structured assessment and evaluator-optimizer limits
-- Profile Agent responses and error handling
-- LangGraph orchestration and placement approval flow
-
-The test suite uses offline test doubles where appropriate. Passing these tests does not, by itself, verify live OpenAI API integration or production deployment.
-
-## 8. Important Limitations and Production Hardening
-
-1. **Code execution security:** The current code runner uses subprocess isolation, AST checks, and timeouts. It is not a secure sandbox against hostile code. Production deployment requires disposable isolated containers or VMs, network restrictions, resource quotas, non-root execution, and OS-level isolation.
-
-2. **Checkpoint persistence:** `MemorySaver` is in-memory and intended for demonstration. Production deployments should use a persistent checkpointer, such as PostgreSQL.
-
-3. **Curriculum coverage:** The Advisor currently supports `.txt` and `.md` files. PDF and DOCX loaders may be required depending on the client's actual documents.
-
-4. **Retrieval performance:** Retrieval latency depends on hardware, corpus size, and embedding/cache behavior. Measure it against the complete client curriculum before claiming a production performance target.
-
-5. **Learner data:** The included 25-row dataset is sample project data and must not be treated as live production learner records.
-
-6. **Vacancy matching:** The supplied learner dataset does not contain a verified vacancies table. The system must not claim that real vacancies or confirmed job matches exist.
-
-7. **Human approval:** The HITL workflow does not replace authentication, role-based authorization, audit logging, or a secure approval interface.
-
-8. **API availability:** Live LLM features require a valid API key and available API usage or credits. A ChatGPT subscription does not include OpenAI API credits.
-
-## 9. Submission Checklist
-
-- [ ] Review the client kickoff deck and discovery-call recording.
-- [ ] Document confirmed requirements and discovery findings.
-- [x] Implement learner database initialization and read-only tools.
-- [x] Implement curriculum RAG ingestion and retrieval pipeline.
-- [x] Implement Advisor, Assessor, and Profile workers.
-- [x] Implement LangGraph orchestration and HITL workflow.
-- [x] Add offline automated tests.
-- [ ] Add and validate the actual client curriculum documents.
-- [ ] Verify live API integration.
-- [ ] Perform end-to-end demonstrations for all workflows.
-- [ ] Capture a 3–5 minute demonstration recording.
-- [ ] Add the final GitHub repository URL.
-- [ ] Prepare the final report, presentation, and submission archive.
-
-## 10. Project Structure
-
-```text
-sprints-ai-orchestrator/
-├── data/
-│   ├── curriculum_docs/
-│   ├── sprints_learner_db.csv
-│   └── sprints_learners.db
-├── src/
-│   ├── agents/
-│   │   ├── advisor_agent.py
-│   │   ├── assessor_agent.py
-│   │   ├── profile_agent.py
-│   │   └── orchestrator.py
-│   ├── tools/
-│   │   ├── code_repl.py
-│   │   ├── db_queries.py
-│   │   └── rag_retriever.py
-│   ├── config.py
-│   ├── state.py
-│   └── main.py
-├── tests/
-├── docs/
-├── requirements.txt
-├── .env.example
-└── README.md
-```
+- Structured assessment and
