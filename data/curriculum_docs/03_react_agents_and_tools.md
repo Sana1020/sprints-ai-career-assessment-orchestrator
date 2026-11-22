@@ -1,0 +1,3 @@
+# ReAct Agents and Custom Tools (Sprint 1)
+ReAct stands for Reason plus Act. The model alternates between reasoning about what to do and calling a tool, then reads the tool result (a ToolMessage) and continues until it can answer. A custom tool is a Python function decorated with `@tool`; its docstring is shown to the model, so it must describe inputs and outputs clearly.
+Sprints provides two tools: a read-only SQL tool for the learner database and a Python REPL tool that executes student code in a sandbox and captures stdout and runtime errors. Tools must validate input and must never allow writes or unrestricted code execution.

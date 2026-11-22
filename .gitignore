@@ -1,0 +1,39 @@
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# Virtual environments
+.venv/
+venv/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Test and coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Vector database
+data/chroma/
+
+# Local databases
+data/*.db
+data/*.sqlite
+data/*.sqlite3
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Logs
+*.log
+
+# IDE
+.vscode/
+.idea/
+# Potentially sensitive learner data
+data/sprints_learner_db.csv

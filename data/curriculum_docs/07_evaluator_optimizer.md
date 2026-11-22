@@ -1,0 +1,2 @@
+# Evaluator-Optimizer Pattern (Sprint 2)
+In the evaluator-optimizer pattern one node produces an output and a second node, the judge, reviews it against an explicit rubric. If the judge rejects it, the critique is fed back and the producer tries again. This loop must be bounded: Sprints allows at most 3 refinement iterations to control token cost and latency. The judge checks that the score matches the rubric and the execution evidence, that pass_status is consistent with the pass mark, and that feedback is specific and actionable.

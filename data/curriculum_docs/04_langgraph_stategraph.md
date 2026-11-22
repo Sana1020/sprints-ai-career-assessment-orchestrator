@@ -1,0 +1,3 @@
+# LangGraph and StateGraph (Sprint 2)
+LangGraph models an agent system as a graph. A StateGraph has a global state defined as a TypedDict, nodes (Python functions that read the state and return updates), and edges. Conditional edges choose the next node at runtime, which allows routing, loops and branches that plain chains cannot express. Use LangGraph instead of linear chains whenever the flow is dynamic.
+An orchestrator-worker design has one router node that classifies the learner's intent and sends the query to the Advisor Agent or the Assessor Agent. The messages list uses the add_messages reducer so HumanMessage, AIMessage and ToolMessage objects accumulate in order.

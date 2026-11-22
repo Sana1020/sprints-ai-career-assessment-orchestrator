@@ -1,0 +1,3 @@
+# LangChain Basics (Sprint 1)
+LangChain is a framework for building applications around large language models. Its core abstractions are chat models, prompt templates, output parsers, retrievers and tools. A chain composes these pieces with the pipe operator, for example `prompt | llm | parser`. Chains are linear: each step runs once, in order, which makes them ideal for fixed workflows such as "format a prompt, call the model, parse JSON".
+Document loaders read files into Document objects. Text splitters cut documents into chunks; Sprints uses 500-token chunks with a 50-token overlap so context is not lost at chunk borders. Embedding models turn chunks into vectors that are stored in a vector database such as ChromaDB.

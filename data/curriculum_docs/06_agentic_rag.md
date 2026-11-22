@@ -1,0 +1,3 @@
+# Agentic RAG with Self-Reflection (Sprint 2)
+Basic RAG retrieves once and answers. Agentic RAG adds a reflection step: after retrieval a grader decides whether the context is sufficient. If it is not, the agent reformulates the query and searches again, up to a fixed number of attempts. If the context is still insufficient, the agent must say that the curriculum does not cover the question rather than inventing an answer. Answers must be grounded only in retrieved text and should cite their sources.
+Retrieval must be fast; Sprints requires ChromaDB retrieval to complete within 1000 milliseconds to avoid orchestrator timeouts.
