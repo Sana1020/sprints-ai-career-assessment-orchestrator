@@ -3,13 +3,13 @@
 
 import argparse
 import json
-
+from src.config import configure_logging
 from src.agents.orchestrator import SprintsOrchestrator
 
 
 def main(orchestrator=None, argv=None):
     """Run the CLI with an injectable orchestrator for offline testing."""
-
+    configure_logging(verbose=True)
     parser = argparse.ArgumentParser(
         description="Sprints AI Career & Assessment Orchestrator"
     )

@@ -25,6 +25,13 @@ class SprintsState(TypedDict, total=False):
     retrieved_context: str
     retrieval_ms: float
 
+    # Advisor self-reflection workflow
+    advisor_query: str
+    advisor_docs: list[Any]
+    advisor_context: str
+    advisor_sufficient: bool
+    advisor_retry_count: int
+
     # Placement and human approval
     placement: dict
     needs_human_approval: bool
